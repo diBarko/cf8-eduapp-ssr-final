@@ -27,9 +27,9 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@SpringBootTest     // Φορτώνει όλο το context
+@Transactional      // Εγγυάται ότι θα γίνει rollback
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)     // Χρησιμοποιεί τη H2 db
 class TeacherServiceTest {
 
     private final TeacherService teacherService;
@@ -219,21 +219,21 @@ class TeacherServiceTest {
         TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.updateTeacher(updateDTO, null);
 
         // Assert: reload and verify only the intended fields changed
-        Teacher after = teacherRepository.findById(before.getId()).orElseThrow();
+        Teacher updated = teacherRepository.findById(before.getId()).orElseThrow();
 
         // TeacherReadOnlyDTO corresponds to the same teacher id
         assertNotNull(teacherReadOnlyDTO);
         assertEquals(before.getId(), teacherReadOnlyDTO.id());
 
-        assertEquals("Λαμπρινή", after.getUser().getFirstname());
-        assertEquals("B7654321", after.getPersonalInfo().getIdentityNumber());
+        assertEquals("Λαμπρινή", updated.getUser().getFirstname());
+        assertEquals("B7654321", updated.getPersonalInfo().getIdentityNumber());
 
         // Assert unchanged values remain the same
-        assertEquals(before.getUser().getVat(), after.getUser().getVat());
-        assertEquals(before.getUuid(), after.getUuid());
+        assertEquals(before.getUser().getVat(), updated.getUser().getVat());
+        assertEquals(before.getUuid(), updated.getUuid());
 
         // file should be unchanged because we passed null (no new file)
         assertEquals(before.getPersonalInfo().getAmkaFile(),
-                after.getPersonalInfo().getAmkaFile());
+                updated.getPersonalInfo().getAmkaFile());
     }
 }
