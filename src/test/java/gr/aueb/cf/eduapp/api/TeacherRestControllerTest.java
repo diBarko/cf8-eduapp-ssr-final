@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-//@Import(ErrorHandler.class)
 @AutoConfigureMockMvc(addFilters = false) // disable JWT/security filters
 class TeacherRestControllerTest {
 
@@ -156,7 +155,7 @@ class TeacherRestControllerTest {
               },
               "personalInfoInsertDTO": {
               // should be 11
-                "amka": "AMKA123",            
+                "amka": "AMKA123",
                 "identityNumber": "ID123"
               }
             }
