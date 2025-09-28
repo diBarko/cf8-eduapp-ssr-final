@@ -37,6 +37,7 @@ import java.util.Objects;
 public class TeacherRestController {
 
     private final ITeacherService teacherService;
+//    private final TeacherInsertValidator teacherInsertValidator;         // Alternative validation
 
     @Operation(
             summary = "Save a teacher",
@@ -76,6 +77,7 @@ public class TeacherRestController {
             @Nullable @RequestPart(value = "amkaFile", required = false) MultipartFile amkaFile)
             throws AppObjectAlreadyExists, IOException, ValidationException {
 
+//        teacherInsertValidator.validate(teacherInsertDTO, bindingResult);         // Alternative validation
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
         }
