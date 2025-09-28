@@ -16,7 +16,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@DataJpaTest        // H2 DB (in-memory database), Repositories load to IoC Container, test -> Transaction -> Rollback
 class TeacherRepositoryTest {
 
     private final TeacherRepository teacherRepository;
@@ -52,9 +52,10 @@ class TeacherRepositoryTest {
         teacher.setUuid(UUID.randomUUID().toString());
         teacher.setIsActive(true);
         teacher.setUser(user);
-        teacherRepository.save(teacher);
 
-        List<Teacher> teachers = teacherRepository.findByUserLastname("Παπαδοπούλου");
+        teacherRepository.save(teacher);    // persist
+
+        List<Teacher> teachers = teacherRepository.findByUserLastname("Παπαδοπούλου");  // actual
         assertEquals(1, teachers.size());   // JUnit
 //        assertThat(teachers).hasSize(1);  // AssertJ
     }
@@ -119,7 +120,7 @@ class TeacherRepositoryTest {
     void testFindByUuid() {
         Optional<Teacher> teacherOpt = teacherRepository.findByUuid(existingTeacher.getUuid());
         assertTrue(teacherOpt.isPresent());
-        assertEquals(existingUser.getId(), teacherOpt.get().getUser().getId());
+        assertEquals(existingTeacher.getUuid(), teacherOpt.get().getUuid());
     }
 
 
@@ -144,4 +145,3 @@ class TeacherRepositoryTest {
         teacherRepository.save(existingTeacher);
     }
 }
-
