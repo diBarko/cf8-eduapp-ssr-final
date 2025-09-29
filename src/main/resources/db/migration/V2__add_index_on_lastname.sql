@@ -1,5 +1,5 @@
 -- V<Version>__<Description>.sql
---CREATE INDEX idx_users_lastname ON users(lastname);
+ CREATE INDEX idx_users_lastname ON users(lastname);
 --No need to change anything in the POJO
 -- change to validate, spring.jpa.hibernate.ddl-auto=validate
 -- On startup, Flyway will automatically apply V2__add_index_on_lastname.sql to the database.
